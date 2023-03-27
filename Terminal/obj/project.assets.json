@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\David\\.nuget\\packages\\": {}
+    "C:\\Users\\serbi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\David\\Downloads\\Newlinq2023\\Terminal\\Terminal.csproj",
+      "projectUniqueName": "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Terminal\\Terminal.csproj",
       "projectName": "Terminal",
-      "projectPath": "C:\\Users\\David\\Downloads\\Newlinq2023\\Terminal\\Terminal.csproj",
-      "packagesPath": "C:\\Users\\David\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\David\\Downloads\\Newlinq2023\\Terminal\\obj\\",
+      "projectPath": "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Terminal\\Terminal.csproj",
+      "packagesPath": "C:\\Users\\serbi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Terminal\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\David\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\serbi\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

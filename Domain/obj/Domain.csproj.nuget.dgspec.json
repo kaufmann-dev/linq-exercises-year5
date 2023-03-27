@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\David\\Downloads\\Newlinq2023\\Domain\\Domain.csproj": {}
+    "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\David\\Downloads\\Newlinq2023\\Domain\\Domain.csproj": {
+    "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\David\\Downloads\\Newlinq2023\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\David\\Downloads\\Newlinq2023\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\David\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\David\\Downloads\\Newlinq2023\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\serbi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\serbi\\Documents\\School projects\\Newlinq2023\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\David\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\serbi\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"

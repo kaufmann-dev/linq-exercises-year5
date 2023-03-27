@@ -6,6 +6,8 @@ using NUnit.Framework;
 
 namespace LinqTest;
 
+using System.Threading.Channels;
+
 public class DishDomainTest {
     [SetUp]
     public void Setup() {
@@ -116,7 +118,7 @@ public class DishDomainTest {
 
     /*
      * 1.6) Beispiel: Gruppieren Sie die Gerichte nach ihrem Typ. Geben
-     *      Sie die gruppierten Gerichte zurück
+     *      Sie die Anzahl der gruppierten Gerichte zurück
      * 
      */
     [Test]
@@ -125,17 +127,24 @@ public class DishDomainTest {
         var query = from dish in dishes
             group dish by dish.Type
             into dishGroup
-            select dishGroup;
+                //select dishGroup;
+            select new { Type = dishGroup.Key, Amount = dishGroup.Count() };
+        
+        
 
         var data = query.ToList();
 
-
-        foreach (var item in data) {
-            var type = item.Key;
-            var dishesList = item.ToList();
-
-            Assert.True(Enum.GetValues<EDishType>().Contains(type));
+        foreach (var result in data){
+            Console.WriteLine($"{result.Type} {result.Amount}");
         }
+
+
+        // foreach (var item in data) {
+        //     var type = item.Key;
+        //     var dishesList = item.ToList();
+        //
+        //     Assert.True(Enum.GetValues<EDishType>().Contains(type));
+        // }
     }
 
 

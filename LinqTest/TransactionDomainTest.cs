@@ -54,17 +54,21 @@ namespace LinqTest
             List<Transaction> transactions = TraderDataFactory.Instance.CreateTransactions();
             List<Trader> traders = TraderDataFactory.Instance.CreateTrader();
 
+            var maxRevenue = (from t in transactions
+                group t by t.Trader.Name
+                into traderGroup
+                select traderGroup.Sum(t5 => t5.Value)).Max();
+            
             var query =
-                from t in traders
-                join transaction in transactions on t equals transaction.Trader
-                group transaction by t into transactionGroup 
-                where transactionGroup.Sum(t => t.Value) > 10000
-                orderby transactionGroup.Key.Name
-                select new { Name = transactionGroup.Key.Name, Value = transactionGroup.Sum(t => t.Value)};
+                from t in transactions
+                group t by t.Trader.Name into traderGroup 
+                where traderGroup.Sum(t => t.Value) > maxRevenue
+                orderby traderGroup.Key
+                select new { Trader = traderGroup.Key, TransactionAmount = traderGroup.Sum(t => t.Value)};
 
-            foreach (var trader in query) {
-                Console.WriteLine($"{trader.Name} {trader.Value}");
-            }
+            // foreach (var trader in query) {
+            //     Console.WriteLine($"{trader.Name} {trader.Value}");
+            // }
             
             Assert.AreEqual(5, query.ToList().Count);
         }
