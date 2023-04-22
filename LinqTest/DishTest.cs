@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Dishes;
+using Domain.Entities;
+using Domain.Enums;
+using Domain.Factories;
 using NUnit.Framework;
 
 namespace LinqTest;
@@ -21,7 +23,7 @@ public class DishDomainTest {
         */
     [Test]
     public void GetDishByCalories() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
         var query = from dish in dishes where dish.Calories < 400 select dish.Name;
         Assert.That(query.Count(), Is.EqualTo(2));
@@ -42,7 +44,7 @@ public class DishDomainTest {
      */
     [Test]
     public void GetDishByDishType() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
         var query = from dish in dishes
             where (dish.Type == EDishType.FISH || dish.Type == EDishType.MEAT)
@@ -62,7 +64,7 @@ public class DishDomainTest {
      */
     [Test]
     public void CalculateMaxCalorieLevel2() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
         var query = from dish in dishes where dish.Ingredients.Count > 7 select dish.Name;
         Assert.That(query.Count(), Is.EqualTo(5));
@@ -77,7 +79,7 @@ public class DishDomainTest {
      */
     [Test]
     public void CalculateMaxCalorieLevel3() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
         var query = from dish in dishes
             where dish.Ingredients.Contains(EIngredient.MUSHROOM)
@@ -91,7 +93,7 @@ public class DishDomainTest {
      */
     [Test]
     public void CalculateMaxCalorieLevel() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
         var query = from dish in dishes
             where dish.Type == EDishType.MEAT
@@ -123,7 +125,7 @@ public class DishDomainTest {
      */
     [Test]
     public void GroupDishByType() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
         var query = from dish in dishes
             group dish by dish.Type
             into dishGroup
@@ -154,7 +156,7 @@ public class DishDomainTest {
      */
     [Test]
     public void GroupDishByTypeCountingElements() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
         // var query = 
         var query = from dish in dishes
             group dish by dish.Type
@@ -179,7 +181,7 @@ public class DishDomainTest {
      */
     [Test]
     public void CommonIngredient() {
-        List<Dish> dishes = DishFactory.GetInstance().CreateDishes();
+        List<Dish> dishes = DishFactory.Instance.CreateDishes();
         // var query = 
 
         var query = dishes.Select(d => d.Ingredients)

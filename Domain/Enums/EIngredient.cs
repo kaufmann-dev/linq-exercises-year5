@@ -1,4 +1,4 @@
-namespace Domain.Dishes; 
+namespace Domain.Enums; 
 
 public enum EIngredient {
     TOMATOE, ONION, SALT, WATER, CREAM, PEPPER,

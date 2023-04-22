@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terminal", "Terminal\Terminal.csproj", "{B0B3A5C0-C9F0-4496-A759-A739425CF16E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqTest", "LinqTest\LinqTest.csproj", "{040E8AEF-727F-49BC-AD83-2FA3B80C8611}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5DD71639-EFDE-4A9A-A36A-5049B6818AB4}"
@@ -12,10 +10,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0B3A5C0-C9F0-4496-A759-A739425CF16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0B3A5C0-C9F0-4496-A759-A739425CF16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0B3A5C0-C9F0-4496-A759-A739425CF16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0B3A5C0-C9F0-4496-A759-A739425CF16E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{040E8AEF-727F-49BC-AD83-2FA3B80C8611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{040E8AEF-727F-49BC-AD83-2FA3B80C8611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{040E8AEF-727F-49BC-AD83-2FA3B80C8611}.Release|Any CPU.ActiveCfg = Release|Any CPU

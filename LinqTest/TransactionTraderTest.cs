@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Trader;
+using Domain.Entities;
+using Domain.Factories;
 using NUnit.Framework;
 
 namespace LinqTest
@@ -22,8 +23,8 @@ namespace LinqTest
          */
         [Test]
         public void GroupByTrader() {
-            List<Transaction> transactions = TraderDataFactory.Instance.CreateTransactions();
-            List<Trader> traders = TraderDataFactory.Instance.CreateTrader();
+            List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
+            List<Trader> traders = TraderFactory.Instance.CreateTraders();
 
             
             var query =
@@ -51,8 +52,8 @@ namespace LinqTest
          */
         [Test]
         public void GroupTransaction() {
-            List<Transaction> transactions = TraderDataFactory.Instance.CreateTransactions();
-            List<Trader> traders = TraderDataFactory.Instance.CreateTrader();
+            List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
+            List<Trader> traders = TraderFactory.Instance.CreateTraders();
 
             var maxRevenue = (from t in transactions
                 group t by t.Trader.Name
@@ -83,8 +84,8 @@ namespace LinqTest
          */
         [Test]
         public void GroupTransactionsHaving() {
-            List<Transaction> transactions = TraderDataFactory.Instance.CreateTransactions();
-            List<Trader> traders = TraderDataFactory.Instance.CreateTrader();
+            List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
+            List<Trader> traders = TraderFactory.Instance.CreateTraders();
 
             var query =
                 from t in traders
@@ -108,7 +109,7 @@ namespace LinqTest
          */
         [Test]
         public void GroupTraderByName() {
-            List<Trader> traders = TraderDataFactory.Instance.CreateTrader();
+            List<Trader> traders = TraderFactory.Instance.CreateTraders();
 
             var query = from t in traders 
                 where t.Name.StartsWith("A") || t.Name.StartsWith("P")

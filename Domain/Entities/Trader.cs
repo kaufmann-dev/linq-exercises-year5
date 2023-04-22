@@ -1,4 +1,6 @@
-namespace Domain.Trader; 
+using Domain.Enums;
+
+namespace Domain.Entities; 
 
 public class Trader {
 

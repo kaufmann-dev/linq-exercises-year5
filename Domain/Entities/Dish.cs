@@ -1,4 +1,6 @@
-namespace Domain.Dishes; 
+using Domain.Enums;
+
+namespace Domain.Entities; 
 
 public class Dish {
 

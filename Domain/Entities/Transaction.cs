@@ -1,14 +1,14 @@
-namespace Domain.Trader; 
+namespace Domain.Entities; 
 
 public class Transaction {
 
-    public Trader Trader { get; init; }
+    public Entities.Trader Trader { get; init; }
 
     public int Year { get; init; }
 
     public int Value { get; init; }
     
-    public Transaction(Trader trader, int year, int value) {
+    public Transaction(Entities.Trader trader, int year, int value) {
         Trader = trader;
         Year = year;
         Value = value;
