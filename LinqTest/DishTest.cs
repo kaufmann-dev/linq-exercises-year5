@@ -25,14 +25,26 @@ public class DishDomainTest {
     public void GetDishByCalories() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
-        var query = from dish in dishes where dish.Calories < 400 select dish.Name;
-        Assert.That(query.Count(), Is.EqualTo(2));
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
+            where dish.Calories < 400
+            select dish.Name;
 
-        var query2 = dishes
+        // Method Syntax
+        var queryM = dishes
             .Where(d => d.Calories < 400)
             .Select(d => d.Name);
-
-        Assert.That(query2.Count(), Is.EqualTo(2));
+        
+        // Console
+        foreach (var dish in queryM){
+            Console.WriteLine($"{dish}");
+        }
+        
+        // Asserts
+        Assert.AreEqual(queryQ.Count(), 2);
+        
+        Assert.That(queryM.Count(), Is.EqualTo(2));
     }
 
     /*
@@ -45,17 +57,31 @@ public class DishDomainTest {
     [Test]
     public void GetDishByDishType() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
-
-        var query = from dish in dishes
-            where (dish.Type == EDishType.FISH || dish.Type == EDishType.MEAT)
-                  && dish.Name.StartsWith("C")
+        
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
+            where (dish.Type == EDishType.FISH || dish.Type == EDishType.MEAT) && dish.Name.StartsWith("C")
             select dish.Name;
-        Assert.That(query.Count(), Is.EqualTo(2));
 
-        var query2 = dishes.Where(d => d.Name.StartsWith("C"))
+        // Method Syntax
+        var queryM = dishes
+            .Where(d => d.Name.StartsWith("C"))
             .Where(d => d.Type == EDishType.FISH || d.Type == EDishType.MEAT)
             .Select(d => d.Name);
-        Assert.That(query2.Count(), Is.EqualTo(2));
+        
+        // Console
+        var dishList = new List<string>();
+        dishList.AddRange(queryM);
+        dishList.Sort();
+        foreach (var dish in dishList){
+            Console.WriteLine($"{dish}");
+        }
+
+        // Asserts
+        Assert.That(queryQ.Count(), Is.EqualTo(2));
+        
+        Assert.That(queryM.Count(), Is.EqualTo(2));
     }
 
     /*
@@ -66,12 +92,26 @@ public class DishDomainTest {
     public void CalculateMaxCalorieLevel2() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
-        var query = from dish in dishes where dish.Ingredients.Count > 7 select dish.Name;
-        Assert.That(query.Count(), Is.EqualTo(5));
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
+            where dish.Ingredients.Count > 7
+            select dish.Name;
 
-        var query2 = dishes.Where(d => d.Ingredients.Count > 5)
+        // Method Syntax
+        var queryM = dishes
+            .Where(d => d.Ingredients.Count > 7)
             .Select(d => d.Name);
-        Assert.That(query2.Count(), Is.EqualTo(5));
+        
+        // Console
+        foreach (var dish in queryM){
+            Console.WriteLine($"{dish}");
+        }
+        
+        // Asserts
+        Assert.That(queryQ.Count(), Is.EqualTo(5));
+        
+        Assert.That(queryM.Count(), Is.EqualTo(5));
     }
 
     /*
@@ -81,11 +121,21 @@ public class DishDomainTest {
     public void CalculateMaxCalorieLevel3() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
-        var query = from dish in dishes
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
             where dish.Ingredients.Contains(EIngredient.MUSHROOM)
             select dish;
+        
+        // Method Syntax
+        var queryM = dishes
+            .Where(d => d.Ingredients.Contains(EIngredient.MUSHROOM));
 
-        Assert.That(query.Count(), Is.EqualTo(2));
+        // Asserts
+        Assert.AreEqual(queryQ.Count(), 2);
+        
+        Assert.That(queryM.Count(), Is.EqualTo(2));
+        
     }
 
     /*
@@ -95,27 +145,38 @@ public class DishDomainTest {
     public void CalculateMaxCalorieLevel() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
 
-        var query = from dish in dishes
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
             where dish.Type == EDishType.MEAT
             group dish by dish.Type
             into dishGroup
-            select new { Calories = dishGroup.Sum(d => d.Calories), DishType = dishGroup.Key };
+            select new {
+                Calories = dishGroup.Sum(d => d.Calories),
+                DishType = dishGroup.Key
+            };
 
-        var data = query.ToList();
+        var listQ = queryQ.ToList();
+        
+        // Method Syntax
+        var queryM = dishes
+            .Where(d => d.Type == EDishType.MEAT)
+            .GroupBy(d => d.Type, (key, dishData)
+                => new {
+                    Calories = dishData.Sum(d => d.Calories),
+                    DishType = key
+                });
+        
+        var listM = queryM.ToList();
 
-        Assert.That(data.Count, Is.EqualTo(1));
-        Assert.That(data[0].Calories, Is.EqualTo(1600));
-        Assert.That(data[0].DishType, Is.EqualTo(EDishType.MEAT));
-
-        var query2 = dishes.Where(d => d.Type == EDishType.MEAT)
-            .GroupBy(d => d.Type, (key, dishData) => new { Calories = dishData.Sum(d => d.Calories), DishType = key });
-        var data2 = query2.ToList();
-
-        Assert.That(data2.Count, Is.EqualTo(1));
-        Assert.That(data2[0].Calories, Is.EqualTo(1600));
-        Assert.That(data2[0].DishType, Is.EqualTo(EDishType.MEAT));
-
-        // Assert.AreEqual(1600, calorieCount);
+        // Asserts
+        Assert.That(listQ.Count, Is.EqualTo(1));
+        Assert.That(listQ[0].Calories, Is.EqualTo(1600));
+        Assert.That(listQ[0].DishType, Is.EqualTo(EDishType.MEAT));
+        
+        Assert.That(listM.Count, Is.EqualTo(1));
+        Assert.That(listM[0].Calories, Is.EqualTo(1600));
+        Assert.That(listM[0].DishType, Is.EqualTo(EDishType.MEAT));
     }
 
     /*
@@ -126,27 +187,33 @@ public class DishDomainTest {
     [Test]
     public void GroupDishByType() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
-        var query = from dish in dishes
+        
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
             group dish by dish.Type
             into dishGroup
-                //select dishGroup;
-            select new { Type = dishGroup.Key, Amount = dishGroup.Count() };
+            select new {
+                Type = dishGroup.Key,
+                Amount = dishGroup.Count()
+            };
         
+        var listQ = queryQ.ToList();
         
+        // Method Syntax
+        var queryM = dishes
+            .GroupBy(d => d.Type, (key, data)
+                => new {
+                    DishType = key,
+                    DishCount = data.Count()
+                });
 
-        var data = query.ToList();
-
-        foreach (var result in data){
-            Console.WriteLine($"{result.Type} {result.Amount}");
+        // Console & Asserts
+        foreach (var x in queryM){
+            Console.WriteLine($"{x.DishType}: {x.DishCount}");
+            
+            Assert.True(Enum.GetValues<EDishType>().Contains(x.DishType));
         }
-
-
-        // foreach (var item in data) {
-        //     var type = item.Key;
-        //     var dishesList = item.ToList();
-        //
-        //     Assert.True(Enum.GetValues<EDishType>().Contains(type));
-        // }
     }
 
 
@@ -157,21 +224,38 @@ public class DishDomainTest {
     [Test]
     public void GroupDishByTypeCountingElements() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
-        // var query = 
-        var query = from dish in dishes
+        
+        // Query Syntax
+        var queryQ =
+            from dish in dishes
             group dish by dish.Type
             into dishGroup
             select new {
-                type = dishGroup.Key, count = dishGroup.Count()
+                type = dishGroup.Key,
+                count = dishGroup.Count()
             };
 
-        var data = query.ToList();
-        Assert.That(data.Count, Is.EqualTo(2));
+        var listQ = queryQ.ToList();
 
-        var query2 = dishes.GroupBy(d => d.Type, (key, dishData) => new { type = key, dishCount = dishData.Count() });
-        var data2 = query2.ToList();
+        // Method Syntax
+        var queryM = dishes
+            .GroupBy(d => d.Type, (key, dishData)
+                => new {
+                    type = key,
+                    dishCount = dishData.Count()
+                });
         
-        Assert.That(data2.Count, Is.EqualTo(2));
+        var listM = queryM.ToList();
+        
+        // Console
+        foreach (var dish in queryQ)
+        {
+            Console.WriteLine($"{dish.type}: {dish.count}");
+        }
+        
+        // Asserts
+        Assert.That(listQ.Count, Is.EqualTo(2));
+        Assert.That(listM.Count, Is.EqualTo(2));
     }
 
     /*
@@ -182,17 +266,44 @@ public class DishDomainTest {
     [Test]
     public void CommonIngredient() {
         List<Dish> dishes = DishFactory.Instance.CreateDishes();
-        // var query = 
-
-        var query = dishes.Select(d => d.Ingredients)
-            .Aggregate((ingredients, next) => ingredients.Intersect(next).ToList())
-            .OrderBy( i => i);
         
+        // Query Syntax
+        var queryQ =
+            from d in dishes
+            select new
+            {
+                d.Name,
+                Ingredients = (
+                    from i in d.Ingredients
+                    orderby i.ToString()
+                    select i.ToString()
+                ).ToList()
+            };
         
-        // foreach (var ingredient in query) {
-        //    Console.WriteLine(ingredient);
-        // }
+        var listQ = queryQ.ToList();
+        
+        // Method Syntax 
+        var queryM = dishes.Select(d => new
+        {
+            d.Name,
+            Ingredients = d.Ingredients
+                .Select(i => i.ToString())
+                .OrderBy(i => i)
+                .ToList()
+        });
 
-        // Assert.AreEqual(1, query.Count());
+        var listM = queryM.ToList();
+        
+        // Console
+        foreach (var x in listM){
+            Console.WriteLine($"{x.Name}: ");
+            for (int i = 0; i < x.Ingredients.Count(); i++){
+                Console.Write(x.Ingredients[i]);
+                if (i < x.Ingredients.Count() - 1){
+                    Console.Write(", ");
+                }
+            }
+            Console.WriteLine($"\n");
+        }
     }
 }
