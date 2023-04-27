@@ -25,36 +25,35 @@ namespace LinqTest
         public void GroupByTrader() {
             List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
             List<Trader> traders = TraderFactory.Instance.CreateTraders();
-
             
-            var query =
-                from t in traders
-                join transaction in transactions on t equals transaction.Trader
-                group transaction by t into transactionGroup 
-                where transactionGroup.Sum(t => t.Value) > 10000
-                orderby transactionGroup.Key.Name
-                select new { Name = transactionGroup.Key.Name, Value = transactionGroup.Sum(t => t.Value)};
-
-            var query2 = from t in traders
+            // Query
+            var query = from t in traders
                 join tr in transactions on t equals tr.Trader
                 group tr by tr.Trader into transactionGroup
-                select new { name = transactionGroup.Key.Name, };
+                orderby transactionGroup.Key.Name
+                select new {
+                    Name = transactionGroup.Key.Name,
+                    TransactionAmount = transactionGroup.Sum(t=>t.Value)
+                };
             
+            // Console
+            foreach (var trader in query){
+                Console.WriteLine($"{trader.Name}: {trader.TransactionAmount}");
+            }
+            
+            // Asserts
             Assert.AreEqual(6, query.ToList().Count);
         }
-        
-        /*
-         * 2.2) Beispiel: Geben Sie fuer jeden Trader den Wert der Summe
-         *      seiner Transaktionen an. Geben Sie den Namen des Tader
-         *      und die Summe aus. Ordnen Sie das Ergebnis
-         *      nach dem Namen des Traders.
-         * 
-         */
-        [Test]
-        public void GroupTransaction() {
-            List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
-            List<Trader> traders = TraderFactory.Instance.CreateTraders();
 
+        /*
+         * 2.2) Beispiel: Geben Sie den Namen des Traders mit der höchsten
+         *                Summe seiner Transaktionen und die Summe seiner
+         *                Transaktionen an.
+         */
+        [Test] public void MaxTransaction() {
+            List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
+
+            // Query
             var maxRevenue = (from t in transactions
                 group t by t.Trader.Name
                 into traderGroup
@@ -63,15 +62,16 @@ namespace LinqTest
             var query =
                 from t in transactions
                 group t by t.Trader.Name into traderGroup 
-                where traderGroup.Sum(t => t.Value) > maxRevenue
+                where traderGroup.Sum(t => t.Value).Equals(maxRevenue)
                 orderby traderGroup.Key
                 select new { Trader = traderGroup.Key, TransactionAmount = traderGroup.Sum(t => t.Value)};
 
-            // foreach (var trader in query) {
-            //     Console.WriteLine($"{trader.Name} {trader.Value}");
-            // }
+            // Console
+            Console.WriteLine($"{query.FirstOrDefault().Trader}: {query.FirstOrDefault().TransactionAmount}");
             
-            Assert.AreEqual(5, query.ToList().Count);
+            // Asserts
+            Assert.AreEqual(query.ToList().Count(), 1);
+            Assert.AreEqual(query.FirstOrDefault().TransactionAmount, 1790000);
         }
         
         /*
@@ -86,7 +86,8 @@ namespace LinqTest
         public void GroupTransactionsHaving() {
             List<Transaction> transactions = TransactionFactory.Instance.CreateTransactions();
             List<Trader> traders = TraderFactory.Instance.CreateTraders();
-
+            
+            // Query
             var query =
                 from t in traders
                 join transaction in transactions on t equals transaction.Trader
@@ -94,11 +95,13 @@ namespace LinqTest
                 where transactionGroup.Sum(t => t.Value) > 10000
                 orderby transactionGroup.Key.Name
                 select new { Name = transactionGroup.Key.Name, Value = transactionGroup.Sum(t => t.Value)};
-
-            foreach (var trader in query) {
-                Console.WriteLine($"{trader.Name} {trader.Value}");
+            
+            // Console
+            foreach (var trader in query){
+                Console.WriteLine($"{trader.Name}: {trader.Value}");
             }
             
+            // Asserts
             Assert.AreEqual(5, query.ToList().Count);
         }
         
@@ -111,15 +114,19 @@ namespace LinqTest
         public void GroupTraderByName() {
             List<Trader> traders = TraderFactory.Instance.CreateTraders();
 
-            var query = from t in traders 
+            // Query
+            var query =
+                from t in traders 
                 where t.Name.StartsWith("A") || t.Name.StartsWith("P")
                 group t by t.Name[0] into traderGroup
                 select new { NameCat = traderGroup.Key, TraderAmount = traderGroup.Count()};
 
+            // Console
             foreach (var tradeGroup in query) {
-                Console.WriteLine($"{tradeGroup.NameCat} {tradeGroup.TraderAmount}");
+                Console.WriteLine($"{tradeGroup.NameCat}: {tradeGroup.TraderAmount}");
             }
             
+            // Asserts
             Assert.AreEqual(2, query.ToList().Count);
         }
 
