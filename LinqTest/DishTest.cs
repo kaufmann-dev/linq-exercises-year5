@@ -62,19 +62,19 @@ public class DishDomainTest {
         var queryQ =
             from dish in dishes
             where (dish.Type == EDishType.FISH || dish.Type == EDishType.MEAT) && dish.Name.StartsWith("C")
+            orderby dish.Name
             select dish.Name;
 
         // Method Syntax
         var queryM = dishes
             .Where(d => d.Name.StartsWith("C"))
             .Where(d => d.Type == EDishType.FISH || d.Type == EDishType.MEAT)
-            .Select(d => d.Name);
+            .OrderBy(c=>c.Name)
+            .Select(d => d.Name)
+            .ToList();
         
         // Console
-        var dishList = new List<string>();
-        dishList.AddRange(queryM);
-        dishList.Sort();
-        foreach (var dish in dishList){
+        foreach (var dish in queryM){
             Console.WriteLine($"{dish}");
         }
 
@@ -283,14 +283,17 @@ public class DishDomainTest {
         var listQ = queryQ.ToList();
         
         // Method Syntax 
-        var queryM = dishes.Select(d => new
-        {
-            d.Name,
-            Ingredients = d.Ingredients
-                .Select(i => i.ToString())
-                .OrderBy(i => i)
-                .ToList()
-        });
+        var queryM =
+            dishes
+                .Select(d => new
+                    {
+                        d.Name,
+                        Ingredients = d.Ingredients
+                            .Select(i => i.ToString())
+                            .OrderBy(i => i)
+                            .ToList()
+                    }
+                );
 
         var listM = queryM.ToList();
         
